@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebGIS Cuaca Kota Pontianak</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 90vh; margin: 10px; }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">WebGIS Cuaca Kota Pontianak</h1>
+    <div id="map"></div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Peta dasar Kota Pontianak
+        var map = L.map('map').setView([-0.0263, 109.3425], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Data cuaca dengan jarak lebih merata di sekitar Kota Pontianak
+        const weatherDataPontianak = [
+            { date: "2024-01-01", weather: "Hujan", lat: -0.0263, lon: 109.3425 }, // Titik pusat
+            { date: "2024-01-03", weather: "Cerah", lat: -0.0163, lon: 109.3525 }, // Utara
+            { date: "2024-01-05", weather: "Mendung", lat: -0.0363, lon: 109.3325 }, // Selatan
+            { date: "2024-01-07", weather: "Hujan", lat: -0.0263, lon: 109.3225 }, // Barat
+            { date: "2024-01-09", weather: "Cerah", lat: -0.0263, lon: 109.3625 }  // Timur
+        ];
+
+        // Menambahkan marker ke peta
+        weatherDataPontianak.forEach(function(data) {
+            const marker = L.marker([data.lat, data.lon]);
+            marker.bindPopup(
+                `<b>Tanggal:</b> ${data.date}<br>
+                 <b>Kondisi Cuaca:</b> ${data.weather}<br>
+                 <b>Koordinat:</b> ${data.lat.toFixed(4)}, ${data.lon.toFixed(4)}`
+            );
+            marker.addTo(map);
+        });
+    </script>
+</body>
+</html>
